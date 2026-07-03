@@ -1,1 +1,2 @@
 .env
+services/fastapi/app/__pycache__/

@@ -1,9 +1,15 @@
 services:
   openplc-runtime:
-    image: ${OPENPLC_RUNTIME_IMAGE:-openplc/runtime:v4}
+    profiles: ["openplc"]
+    image: ${OPENPLC_RUNTIME_IMAGE:-ghcr.io/autonomy-logic/openplc-runtime:latest}
     container_name: pallas-openplc-runtime
     ports:
-      - "${OPENPLC_RUNTIME_PORT:-8080}:8080"
+      - "${OPENPLC_RUNTIME_PORT:-8443}:8443"
+    cap_add:
+      - SYS_NICE
+      - SYS_RESOURCE
+    volumes:
+      - openplc_runtime_data:/var/run/runtime
     environment:
       TZ: ${TZ:-UTC}
     restart: unless-stopped
@@ -39,7 +45,7 @@ services:
       - pallas-network
 
   pgadmin:
-    image: dpage/pgadmin4:8
+    image: dpage/pgadmin4:latest
     container_name: pallas-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
@@ -76,6 +82,7 @@ volumes:
   node_red_data:
   postgres_data:
   pgadmin_data:
+  openplc_runtime_data:
 
 networks:
   pallas-network:
