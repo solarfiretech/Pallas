@@ -1,0 +1,82 @@
+services:
+  openplc-runtime:
+    image: ${OPENPLC_RUNTIME_IMAGE:-openplc/runtime:v4}
+    container_name: pallas-openplc-runtime
+    ports:
+      - "${OPENPLC_RUNTIME_PORT:-8080}:8080"
+    environment:
+      TZ: ${TZ:-UTC}
+    restart: unless-stopped
+    networks:
+      - pallas-network
+
+  node-red:
+    image: nodered/node-red:4.0.8
+    container_name: pallas-node-red
+    ports:
+      - "${NODE_RED_PORT:-1880}:1880"
+    volumes:
+      - node_red_data:/data
+    environment:
+      TZ: ${TZ:-UTC}
+    restart: unless-stopped
+    networks:
+      - pallas-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: pallas-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-pallas}
+      POSTGRES_USER: ${POSTGRES_USER:-pallas}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - pallas-network
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: pallas-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-change-me}
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+    networks:
+      - pallas-network
+
+  fastapi:
+    build:
+      context: ./services/fastapi
+      dockerfile: Dockerfile
+    container_name: pallas-fastapi
+    ports:
+      - "${FASTAPI_PORT:-8000}:8000"
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-pallas}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-pallas}
+      TZ: ${TZ:-UTC}
+    depends_on:
+      - postgres
+    volumes:
+      - ./services/fastapi/app:/app
+    restart: unless-stopped
+    networks:
+      - pallas-network
+
+volumes:
+  node_red_data:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  pallas-network:
+    driver: bridge
