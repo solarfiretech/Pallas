@@ -1,0 +1,280 @@
+{
+  "name": "SCADA",
+  "protocol": "opcua",
+  "opcuaServerConfig": {
+    "server": {
+      "enabled": true,
+      "name": "OpenPLC OPC UA Server",
+      "applicationUri": "urn:openplc:opcua:server",
+      "productUri": "urn:openplc:runtime",
+      "bindAddress": "0.0.0.0",
+      "port": 4840,
+      "endpointPath": "/openplc/opcua"
+    },
+    "securityProfiles": [
+      {
+        "id": "default-insecure",
+        "name": "insecure",
+        "enabled": true,
+        "securityPolicy": "None",
+        "securityMode": "None",
+        "authMethods": [
+          "Anonymous"
+        ]
+      }
+    ],
+    "security": {
+      "serverCertificateStrategy": "auto_self_signed",
+      "serverCertificateCustom": null,
+      "serverPrivateKeyCustom": null,
+      "trustedClientCertificates": []
+    },
+    "users": [],
+    "cycleTimeMs": 100,
+    "addressSpace": {
+      "namespaceUri": "urn:openplc:opcua:cocktails",
+      "nodes": [
+        {
+          "id": "cf78f05a-12be-4a66-abb3-7e3a2717a2d6",
+          "pouName": "main",
+          "variablePath": "IceRequest",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.IceRequest",
+          "browseName": "IceRequest",
+          "displayName": "Ice Request",
+          "description": "",
+          "permissions": {
+            "viewer": "rw",
+            "operator": "rw",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "c90d7eb4-c4dc-444f-808a-7833e049d88d",
+          "pouName": "main",
+          "variablePath": "MixType1",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.MixType1",
+          "browseName": "MixType1",
+          "displayName": "Mix Type1",
+          "description": "",
+          "permissions": {
+            "viewer": "rw",
+            "operator": "rw",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "b0b6c966-436d-4497-bed4-1e1c4937285e",
+          "pouName": "main",
+          "variablePath": "MixType2",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.MixType2",
+          "browseName": "MixType2",
+          "displayName": "Mix Type2",
+          "description": "",
+          "permissions": {
+            "viewer": "rw",
+            "operator": "rw",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "f508a533-6c0f-4c52-9969-3d7f96fb9b00",
+          "pouName": "main",
+          "variablePath": "MixType3",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.MixType3",
+          "browseName": "MixType3",
+          "displayName": "Mix Type3",
+          "description": "",
+          "permissions": {
+            "viewer": "rw",
+            "operator": "rw",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "dd8597de-c58c-4133-9a33-e2ece23a9e6a",
+          "pouName": "main",
+          "variablePath": "Liqueur1",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.Liqueur1",
+          "browseName": "Liqueur1",
+          "displayName": "Liqueur1",
+          "description": "",
+          "permissions": {
+            "viewer": "rw",
+            "operator": "rw",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "4abacacc-1b4b-4d18-984a-bc7b727c527a",
+          "pouName": "main",
+          "variablePath": "Liqueur2",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.Liqueur2",
+          "browseName": "Liqueur2",
+          "displayName": "Liqueur2",
+          "description": "",
+          "permissions": {
+            "viewer": "rw",
+            "operator": "rw",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "5f3e821b-d77d-43c6-b9e3-b2d6b176f08e",
+          "pouName": "main",
+          "variablePath": "WaterRequest",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.WaterRequest",
+          "browseName": "WaterRequest",
+          "displayName": "Water Request",
+          "description": "",
+          "permissions": {
+            "viewer": "rw",
+            "operator": "rw",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "c8d0989c-2be5-4a7a-a255-1fc448bf34b0",
+          "pouName": "main",
+          "variablePath": "DispenseIce",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.DispenseIce",
+          "browseName": "DispenseIce",
+          "displayName": "Dispense Ice",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "f07b0d48-2171-4952-83e3-6d36bc8f19a8",
+          "pouName": "main",
+          "variablePath": "DispenseMix1",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.DispenseMix1",
+          "browseName": "DispenseMix1",
+          "displayName": "Dispense Mix1",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "b1bbaa28-288f-4e06-999f-929d856dddd8",
+          "pouName": "main",
+          "variablePath": "DispenseMix2",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.DispenseMix2",
+          "browseName": "DispenseMix2",
+          "displayName": "Dispense Mix2",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "a5dc6304-c1db-4712-83dc-8b2d0af8468f",
+          "pouName": "main",
+          "variablePath": "DispenseMix3",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.DispenseMix3",
+          "browseName": "DispenseMix3",
+          "displayName": "Dispense Mix3",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "0a02dfb1-2883-482a-8c67-5309b7e86b06",
+          "pouName": "main",
+          "variablePath": "DispenseLiqueur1",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.DispenseLiqueur1",
+          "browseName": "DispenseLiqueur1",
+          "displayName": "Dispense Liqueur1",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "bb4277d9-91e5-4605-82a1-0c4ed09dd628",
+          "pouName": "main",
+          "variablePath": "DispenseLiqueur2",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.DispenseLiqueur2",
+          "browseName": "DispenseLiqueur2",
+          "displayName": "Dispense Liqueur2",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "5a143efd-da60-4023-9c46-b302b60b30ad",
+          "pouName": "main",
+          "variablePath": "DispenseWater",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.DispenseWater",
+          "browseName": "DispenseWater",
+          "displayName": "Dispense Water",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        },
+        {
+          "id": "7905eb1c-c747-484b-baa8-f1a4b2469cfd",
+          "pouName": "main",
+          "variablePath": "CocktailReady",
+          "variableType": "BOOL",
+          "nodeId": "PLC.main.CocktailReady",
+          "browseName": "CocktailReady",
+          "displayName": "Cocktail Ready",
+          "description": "",
+          "permissions": {
+            "viewer": "r",
+            "operator": "r",
+            "engineer": "rw"
+          },
+          "nodeType": "variable"
+        }
+      ]
+    }
+  }
+}

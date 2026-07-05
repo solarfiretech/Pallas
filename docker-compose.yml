@@ -1,6 +1,5 @@
 services:
   openplc-runtime:
-    profiles: ["openplc"]
     image: ${OPENPLC_RUNTIME_IMAGE:-ghcr.io/autonomy-logic/openplc-runtime:latest}
     container_name: pallas-openplc-runtime
     ports:
@@ -17,7 +16,7 @@ services:
       - pallas-network
 
   node-red:
-    image: nodered/node-red:4.0.8
+    image: nodered/node-red:4.1.11-debian
     container_name: pallas-node-red
     ports:
       - "${NODE_RED_PORT:-1880}:1880"

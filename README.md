@@ -41,17 +41,26 @@ From the project root, run:
 docker compose up --build -d
 ```
 
-This builds the FastAPI image and starts the core services in the background. The OpenPLC runtime is disabled by default because it requires a valid image reference.
+This builds the FastAPI image and starts the complete stack in the background, including OpenPLC Runtime.
 
-If you want to include it, run:
+## Clean rebuild
+
+To clean up after the most recent build and start fresh:
 
 ```bash
-docker compose --profile openplc up -d
+docker compose down --volumes --remove-orphans
+docker compose up --build -d
+```
+
+If you want to also remove unused images and networks, run:
+
+```bash
+docker system prune -af
 ```
 
 ## Service Access
 
-- OpenPLC Runtime: http://localhost:8080
+- OpenPLC Runtime: http://localhost:8443
 - Node-RED: http://localhost:1880
 - PGAdmin: http://localhost:5050
 - FastAPI: http://localhost:8000

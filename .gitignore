@@ -7,3 +7,6 @@
 
 .env
 services/fastapi/app/__pycache__/
+
+Examples/OpenPLC/OpenPLCEditor/Pallas/src/
+

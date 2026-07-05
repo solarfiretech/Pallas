@@ -1,0 +1,977 @@
+[
+    {
+        "id": "f6f2187d.f17ca8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3cc11d24.ff01a2",
+        "type": "comment",
+        "z": "f6f2187d.f17ca8",
+        "name": "WARNING: please check you have started this container with a volume that is mounted to /data\\n otherwise any flow changes are lost when you redeploy or upgrade the container\\n (e.g. upgrade to a more recent node-red docker image).\\n  If you are using named volumes you can ignore this warning.\\n Double click or see info side panel to learn how to start Node-RED in Docker to save your work",
+        "info": "\nTo start docker with a bind mount volume (-v option), for example:\n\n```\ndocker run -it -p 1880:1880 -v /home/user/node_red_data:/data --name mynodered nodered/node-red\n```\n\nwhere `/home/user/node_red_data` is a directory on your host machine where you want to store your flows.\n\nIf you do not do this then you can experiment and redploy flows, but if you restart or upgrade the container the flows will be disconnected and lost. \n\nThey will still exist in a hidden data volume, which can be recovered using standard docker techniques, but that is much more complex than just starting with a named volume as described above.",
+        "x": 350,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "4b2aa57caf9f3d27",
+        "type": "OPCUA-IIoT-Flex-Connector",
+        "z": "f6f2187d.f17ca8",
+        "name": "OPC UA Connector",
+        "showStatusActivities": true,
+        "showErrors": true,
+        "connector": "8ad9ca88d78e2355",
+        "x": 230,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "47f09c663592f605",
+        "type": "OPCUA-IIoT-Node",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "write",
+        "nodeId": "ns=2;i=1",
+        "datatype": "Boolean",
+        "value": "",
+        "name": "IceRequest",
+        "topic": "",
+        "showErrors": true,
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "3c2cde0d7853539e"
+            ]
+        ]
+    },
+    {
+        "id": "3c2cde0d7853539e",
+        "type": "OPCUA-IIoT-Write",
+        "z": "f6f2187d.f17ca8",
+        "connector": "8ad9ca88d78e2355",
+        "name": "",
+        "justValue": true,
+        "showStatusActivities": true,
+        "showErrors": true,
+        "x": 910,
+        "y": 500,
+        "wires": [
+            [
+                "a0be5e6463259a8a"
+            ]
+        ]
+    },
+    {
+        "id": "726de5648e300407",
+        "type": "ui-switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "BtnIceRequest",
+        "label": "Dispense Ice",
+        "group": "21de2c7f039b40dc",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 220,
+        "y": 320,
+        "wires": [
+            [
+                "47f09c663592f605"
+            ]
+        ]
+    },
+    {
+        "id": "4e033b5b7e94afcd",
+        "type": "ui-switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "BtnWaterRequest",
+        "label": "Dispense Water",
+        "group": "21de2c7f039b40dc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 230,
+        "y": 380,
+        "wires": [
+            [
+                "4fd8a06fb67c03a3"
+            ]
+        ]
+    },
+    {
+        "id": "647a4516336b3f28",
+        "type": "ui-switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "BtnMix1Request",
+        "label": "Dispense Mixer 1",
+        "group": "21de2c7f039b40dc",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 220,
+        "y": 440,
+        "wires": [
+            [
+                "fde8b8a95ef4a40b"
+            ]
+        ]
+    },
+    {
+        "id": "0ffb74859b55ed18",
+        "type": "ui-switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "BtnMix2Request",
+        "label": "Dispense Mixer 2",
+        "group": "21de2c7f039b40dc",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 220,
+        "y": 500,
+        "wires": [
+            [
+                "faf11ab2b2fd8799"
+            ]
+        ]
+    },
+    {
+        "id": "849021c27a8496bf",
+        "type": "ui-switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "BtnMix3Request",
+        "label": "Dispense Mixer 3",
+        "group": "21de2c7f039b40dc",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 220,
+        "y": 560,
+        "wires": [
+            [
+                "3ef3ec7e4c584e91"
+            ]
+        ]
+    },
+    {
+        "id": "a66fe3b41ff05460",
+        "type": "ui-switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "BtnLiquor1Request",
+        "label": "Dispense Liquor 1",
+        "group": "21de2c7f039b40dc",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 230,
+        "y": 620,
+        "wires": [
+            [
+                "80a06bb43fb8c73e"
+            ]
+        ]
+    },
+    {
+        "id": "7a7005bc0c16ec69",
+        "type": "ui-switch",
+        "z": "f6f2187d.f17ca8",
+        "name": "BtnLiquor2Request",
+        "label": "Dispense Liquor 2",
+        "group": "21de2c7f039b40dc",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "decouple": false,
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "className": "",
+        "layout": "row-spread",
+        "clickableArea": "switch",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "x": 230,
+        "y": 680,
+        "wires": [
+            [
+                "51b5a531d99854e2"
+            ]
+        ]
+    },
+    {
+        "id": "4fd8a06fb67c03a3",
+        "type": "OPCUA-IIoT-Node",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "write",
+        "nodeId": "ns=2;i=7",
+        "datatype": "Boolean",
+        "value": "",
+        "name": "WaterRequest",
+        "topic": "",
+        "showErrors": true,
+        "x": 620,
+        "y": 380,
+        "wires": [
+            [
+                "3c2cde0d7853539e"
+            ]
+        ]
+    },
+    {
+        "id": "fde8b8a95ef4a40b",
+        "type": "OPCUA-IIoT-Node",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "write",
+        "nodeId": "ns=2;i=2",
+        "datatype": "Boolean",
+        "value": "",
+        "name": "Mixer1Request",
+        "topic": "",
+        "showErrors": true,
+        "x": 620,
+        "y": 440,
+        "wires": [
+            [
+                "3c2cde0d7853539e"
+            ]
+        ]
+    },
+    {
+        "id": "faf11ab2b2fd8799",
+        "type": "OPCUA-IIoT-Node",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "write",
+        "nodeId": "ns=2;i=3",
+        "datatype": "Boolean",
+        "value": "",
+        "name": "Mixer2Request",
+        "topic": "",
+        "showErrors": true,
+        "x": 620,
+        "y": 500,
+        "wires": [
+            [
+                "3c2cde0d7853539e"
+            ]
+        ]
+    },
+    {
+        "id": "3ef3ec7e4c584e91",
+        "type": "OPCUA-IIoT-Node",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "write",
+        "nodeId": "ns=2;i=4",
+        "datatype": "Boolean",
+        "value": "",
+        "name": "Mixer3Request",
+        "topic": "",
+        "showErrors": true,
+        "x": 620,
+        "y": 560,
+        "wires": [
+            [
+                "3c2cde0d7853539e"
+            ]
+        ]
+    },
+    {
+        "id": "80a06bb43fb8c73e",
+        "type": "OPCUA-IIoT-Node",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "write",
+        "nodeId": "ns=2;i=5",
+        "datatype": "Boolean",
+        "value": "",
+        "name": "Liquor1Request",
+        "topic": "",
+        "showErrors": true,
+        "x": 620,
+        "y": 620,
+        "wires": [
+            [
+                "3c2cde0d7853539e"
+            ]
+        ]
+    },
+    {
+        "id": "51b5a531d99854e2",
+        "type": "OPCUA-IIoT-Node",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "write",
+        "nodeId": "ns=2;i=6",
+        "datatype": "Boolean",
+        "value": "",
+        "name": "Liquor2Request",
+        "topic": "",
+        "showErrors": true,
+        "x": 620,
+        "y": 680,
+        "wires": [
+            [
+                "3c2cde0d7853539e"
+            ]
+        ]
+    },
+    {
+        "id": "a0be5e6463259a8a",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "OPC UA Writer",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "b71925763a3f6860",
+        "type": "OPCUA-IIoT-Read",
+        "z": "f6f2187d.f17ca8",
+        "attributeId": 0,
+        "maxAge": 1,
+        "depth": 1,
+        "connector": "8ad9ca88d78e2355",
+        "name": "",
+        "justValue": true,
+        "showStatusActivities": true,
+        "showErrors": true,
+        "parseStrings": true,
+        "historyDays": 1,
+        "x": 466,
+        "y": 878,
+        "wires": [
+            [
+                "371e804a6f3dd578",
+                "6e21122e4ce3c875"
+            ]
+        ]
+    },
+    {
+        "id": "879b7fe610f97d28",
+        "type": "OPCUA-IIoT-Inject",
+        "z": "f6f2187d.f17ca8",
+        "injectType": "inject",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "",
+        "repeat": "0.5",
+        "crontab": "",
+        "once": true,
+        "startDelay": "5",
+        "name": "Read Outputs",
+        "addressSpaceItems": [
+            {
+                "name": "DispenseIce",
+                "nodeId": "ns=2;i=8",
+                "datatypeName": "Boolean"
+            },
+            {
+                "name": "DispenseWater",
+                "nodeId": "ns=2;i=14",
+                "datatypeName": "Boolean"
+            },
+            {
+                "name": "DispenseMix1",
+                "nodeId": "ns=2;i=9",
+                "datatypeName": "Boolean"
+            },
+            {
+                "name": "DispenseMix2",
+                "nodeId": "ns=2;i=10",
+                "datatypeName": "Boolean"
+            },
+            {
+                "name": "DispenseMix3",
+                "nodeId": "ns=2;i=11",
+                "datatypeName": "Boolean"
+            },
+            {
+                "name": "DispenseLiqueur1",
+                "nodeId": "ns=2;i=12",
+                "datatypeName": "Boolean"
+            },
+            {
+                "name": "DispenseLiqueur2",
+                "nodeId": "ns=2;i=13",
+                "datatypeName": "Boolean"
+            },
+            {
+                "name": "CoctailReady",
+                "nodeId": "ns=2;i=15",
+                "datatypeName": "Boolean"
+            }
+        ],
+        "x": 236,
+        "y": 878,
+        "wires": [
+            [
+                "b71925763a3f6860"
+            ]
+        ]
+    },
+    {
+        "id": "371e804a6f3dd578",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "name": "function 1",
+        "func": "var IceDispense = {payload: msg.payload.value[0].value};\nvar WaterDispense = {payload: msg.payload.value[1].value};\nvar Mix1Dispense = {payload: msg.payload.value[2].value};\nvar Mix2Dispense = {payload: msg.payload.value[3].value};\nvar Mix3Dispense = {payload: msg.payload.value[4].value};\nvar Liquor1Dispense = {payload: msg.payload.value[5].value};\nvar Liquor2Dispense = {payload: msg.payload.value[6].value};\nvar CocktailReady = {payload: msg.payload.value[7].value};\n\nreturn [IceDispense, WaterDispense, Mix1Dispense, Mix2Dispense,\n    Mix3Dispense, Liquor1Dispense, Liquor2Dispense, CocktailReady];",
+        "outputs": 8,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 676,
+        "y": 878,
+        "wires": [
+            [
+                "155a2fbbc16b6d3c"
+            ],
+            [
+                "ebc045e5911a7a3a"
+            ],
+            [
+                "7b0891837eea4739"
+            ],
+            [
+                "ea6c03371e9497b5"
+            ],
+            [
+                "702129eff30ed44b"
+            ],
+            [
+                "3dba2c59ab9385d4"
+            ],
+            [
+                "4b4062d83a1564b4"
+            ],
+            [
+                "e4ab5fb4c0c186c7"
+            ]
+        ]
+    },
+    {
+        "id": "155a2fbbc16b6d3c",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Ice",
+        "group": "66bee6c598b4c268",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "label": "Ice",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#808080"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 970,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "ebc045e5911a7a3a",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Water",
+        "group": "66bee6c598b4c268",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Water",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#808080"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 970,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "7b0891837eea4739",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Mixer1",
+        "group": "66bee6c598b4c268",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "label": "Mixer 1",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#808080"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 970,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "ea6c03371e9497b5",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Mixer2",
+        "group": "66bee6c598b4c268",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "label": "Mixer 2",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#808080"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 970,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "702129eff30ed44b",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Mixer3",
+        "group": "66bee6c598b4c268",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "label": "Mixer 3",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#808080"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 970,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "3dba2c59ab9385d4",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Liquor1",
+        "group": "66bee6c598b4c268",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "label": "Liquor 1",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#808080"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 980,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "4b4062d83a1564b4",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Liquor2",
+        "group": "66bee6c598b4c268",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "label": "Liquor 2",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#808080"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 980,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "e4ab5fb4c0c186c7",
+        "type": "ui-led",
+        "z": "f6f2187d.f17ca8",
+        "name": "Ready",
+        "group": "66bee6c598b4c268",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "label": "Ready",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "states": [
+            {
+                "value": "false",
+                "valueType": "bool",
+                "color": "#ff0000"
+            },
+            {
+                "value": "true",
+                "valueType": "bool",
+                "color": "#00ff00"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showBorder": true,
+        "showGlow": true,
+        "x": 970,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "6e21122e4ce3c875",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "OPC UA Reader",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "8ad9ca88d78e2355",
+        "type": "OPCUA-IIoT-Connector",
+        "discoveryUrl": "",
+        "endpoint": "opc.tcp://openplc-runtime:4840/openplc/opcua",
+        "endpointMustExist": false,
+        "keepSessionAlive": true,
+        "loginEnabled": false,
+        "name": "LOCAL SERVER",
+        "showErrors": true,
+        "securityPolicy": "None",
+        "securityMode": "None",
+        "individualCerts": false,
+        "publicCertificateFile": "",
+        "privateKeyFile": "",
+        "defaultSecureTokenLifetime": "",
+        "autoSelectRightEndpoint": false,
+        "strategyMaxRetry": "",
+        "strategyInitialDelay": "",
+        "strategyMaxDelay": "",
+        "strategyRandomisationFactor": "",
+        "requestedSessionTimeout": "",
+        "connectionStartDelay": "",
+        "reconnectDelay": "",
+        "maxBadSessionRequests": 10
+    },
+    {
+        "id": "21de2c7f039b40dc",
+        "type": "ui-group",
+        "name": "Cocktail Controls",
+        "page": "4109eb4aecf208aa",
+        "width": "2",
+        "height": "2",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "66bee6c598b4c268",
+        "type": "ui-group",
+        "name": "Cocktail Dispense",
+        "page": "4109eb4aecf208aa",
+        "width": "2",
+        "height": "2",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "4109eb4aecf208aa",
+        "type": "ui-page",
+        "name": "Coctails",
+        "ui": "692aa00a4e0b20a8",
+        "path": "/Manual Control",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "b9321ade4ac3a901",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "692aa00a4e0b20a8",
+        "type": "ui-base",
+        "name": "My Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "b9321ade4ac3a901",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "4f2ac20fea8d97ff",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-iiot-opcua": "4.1.2",
+            "@flowfuse/node-red-dashboard": "1.30.2",
+            "@flowfuse/node-red-dashboard-2-ui-led": "1.1.0"
+        }
+    }
+]
