@@ -21,6 +21,21 @@ OpenPLC Runtime is also available inside the stack at:
 
 - `opc.tcp://openplc-runtime:4840/openplc/opcua`
 
+## 1.1 Import the bundled sample flow (optional)
+
+This repository already includes a sample Node-RED flow at:
+
+- `Examples/NodeRED/Pallas/src/pallas-example-flow.json`
+
+To import it:
+
+1. In Node-RED, open the top-right menu.
+2. Select `Import`.
+3. Choose `select a file to import` or paste the JSON content.
+4. Deploy.
+
+Use this as a starting point, then adapt NodeIds and dashboard layout for your runtime variables.
+
 ## 2. Install the recommended Node-RED nodes
 
 In Node-RED:
@@ -31,14 +46,23 @@ In Node-RED:
 4. Install these packages:
    - Required for OPC UA PLC communication: `node-red-contrib-iiot-opcua`
    - Required for HMI pages/widgets: `@flowfuse/node-red-dashboard`
+   - Optional but used in many HMIs for status lamps: `@flowfuse/node-red-dashboard-2-ui-led`
 
-This tutorial uses only these two packages and does not require optional dashboard add-ons.
+Palette state expected after install (matching this project screenshot):
+
+- `node-red` version `4.1.11` in use
+- `node-red-contrib-iiot-opcua` version `4.1.2` in use
+- `@flowfuse/node-red-dashboard` version `1.30.2` in use
+- `@flowfuse/node-red-dashboard-2-ui-led` version `1.1.0` in use
+
+The core tutorial flow works with the first two packages plus FlowFuse dashboard. The LED package is optional, but recommended if you want dedicated on/off indicator widgets.
 
 Recommended node usage in this tutorial:
 
 - OPC UA connection/session: `OPCUA-IIoT-Flex-Connector`
 - OPC UA read/write items: `IIoT OPC UA Item`
 - HMI controls and displays: FlowFuse dashboard nodes (`ui_switch`, `ui_button`, `ui_gauge`)
+- Optional status lamp indicator: FlowFuse LED node from `@flowfuse/node-red-dashboard-2-ui-led`
 
 After install, deploy once so all newly installed nodes initialize in the runtime.
 

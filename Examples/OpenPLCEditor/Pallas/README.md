@@ -21,6 +21,16 @@ The program will expose simple Boolean inputs and outputs that Node-RED can use 
 3. Add a new program named `main`.
 4. Choose the Ladder Diagram (LD) language for the program.
 
+## 1.1 Use the bundled example project files (optional)
+
+This repository already includes generated project assets under:
+
+- `Examples/OpenPLCEditor/Pallas/src/project.json`
+- `Examples/OpenPLCEditor/Pallas/src/pous/programs/main.ld`
+- `Examples/OpenPLCEditor/Pallas/src/build/OpenPLC Runtime v4/src/`
+
+You can import or reference these files in OpenPLC Editor v4 to avoid building the tutorial from scratch.
+
 ## 2. Define the PLC variables
 
 Create the following global variables in the project:
@@ -153,6 +163,10 @@ Compatibility notes for this stack:
 3. Confirm the runtime is running and the OPC UA server is listening on the expected endpoint:
 
 - `opc.tcp://openplc-runtime:4840/openplc/opcua`
+
+From host tools outside Docker, the same endpoint is typically reachable as:
+
+- `opc.tcp://localhost:4840/openplc/opcua`
 
 ## 6. What entry-level engineers learn
 

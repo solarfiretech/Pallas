@@ -14,6 +14,8 @@ Pallas is a Docker Compose-based development environment for building and testin
 - .env.example: environment variable template
 - services/fastapi/: FastAPI application and container definition
 - documentation/: design and developer documentation
+- Examples/: sample OpenPLC and Node-RED assets
+- workspace/: PowerShell helper scripts for OPC UA discovery and write tests
 
 ## Prerequisites
 
@@ -43,6 +45,23 @@ docker compose up --build -d
 
 This builds the FastAPI image and starts the complete stack in the background, including OpenPLC Runtime.
 
+## Quick Verify
+
+After startup, run:
+
+```bash
+docker compose ps
+```
+
+Then verify these URLs:
+
+- OpenPLC Runtime UI: http://localhost:8443
+- Node-RED editor: http://localhost:1880
+- Node-RED dashboard (if a dashboard flow is deployed): http://localhost:1880/ui
+- PGAdmin: http://localhost:5050
+- FastAPI root endpoint: http://localhost:8000/
+- FastAPI health endpoint: http://localhost:8000/health
+
 ## Clean rebuild
 
 To clean up after the most recent build and start fresh:
@@ -66,6 +85,11 @@ docker system prune -af
 - FastAPI: http://localhost:8000
 - FastAPI health endpoint: http://localhost:8000/health
 
+For OPC UA clients:
+
+- From host machine tools: opc.tcp://localhost:4840/openplc/opcua
+- From containers in this stack (Node-RED/FastAPI): opc.tcp://openplc-runtime:4840/openplc/opcua
+
 ## Useful Commands
 
 - View running containers:
@@ -76,6 +100,29 @@ docker system prune -af
   - docker compose down
 - Stop and remove volumes:
   - docker compose down -v
+
+## Examples
+
+- Node-RED tutorial and sample flow: Examples/NodeRED/Pallas/README.md
+- OpenPLC Editor tutorial and sample project: Examples/OpenPLCEditor/Pallas/README.md
+
+## OPC UA Helper Scripts
+
+The workspace folder includes helper scripts for working with OpenPLC OPC UA variables from inside the Node-RED container:
+
+- workspace/findscript.ps1: browse the OPC UA address space and export NodeIds to openplc-opcua-nodeids.csv
+- workspace/writescript.ps1: read/write test for one OPC UA node
+- workspace/browser.ps1: probe candidate NodeIds for quick validation
+
+Run them from the repository root in PowerShell, for example:
+
+```powershell
+.\workspace\findscript.ps1
+.\workspace\browser.ps1
+.\workspace\writescript.ps1
+```
+
+If a script fails with module errors, install Node-RED palette dependencies from the Node-RED UI first (see Examples/NodeRED/Pallas/README.md), then redeploy.
 
 ## Database Access
 
