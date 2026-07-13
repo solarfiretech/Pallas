@@ -65,6 +65,7 @@ Then verify these URLs:
 - PGAdmin: http://localhost:5050
 - FastAPI root endpoint: http://localhost:8000/
 - FastAPI health endpoint: http://localhost:8000/health
+- FastAPI container health endpoint: http://localhost:8000/health/containers
 - FastAPI docs endpoint: http://localhost:8000/docs
 - FastAPI OPC UA variable poll: http://localhost:8000/opcua/variables
 
@@ -90,7 +91,14 @@ docker system prune -af
 - PGAdmin: http://localhost:5050
 - FastAPI: http://localhost:8000
 - FastAPI health endpoint: http://localhost:8000/health
+- FastAPI container health endpoint: http://localhost:8000/health/containers
 - FastAPI OPC UA variable poll: http://localhost:8000/opcua/variables
+
+Container health expected-status tuning:
+- `OPENPLC_EXPECTED_HTTP_STATUSES` (default: `200,404`)
+- `NODE_RED_EXPECTED_HTTP_STATUSES` (default: `200`)
+- `PGADMIN_EXPECTED_HTTP_STATUSES` (default: `200,302`)
+- `POSTGRES_HEALTHCHECK_HOST` / `POSTGRES_HEALTHCHECK_PORT` (default: `postgres` / `5432`)
 
 For OPC UA clients:
 
