@@ -17,6 +17,10 @@ Pallas is a Docker Compose-based development environment for building and testin
 - Examples/: sample OpenPLC and Node-RED assets
 - workspace/: PowerShell helper scripts for OPC UA discovery and write tests
 
+OpenPLC persistence notes:
+- `openplc_runtime_data` persists runtime API state and credentials at `/var/run/runtime`.
+- `openplc_runtime_workdir` persists loaded PLC project/build state at `/workdir`.
+
 ## Prerequisites
 
 Before you start, ensure you have the following installed:
@@ -61,6 +65,8 @@ Then verify these URLs:
 - PGAdmin: http://localhost:5050
 - FastAPI root endpoint: http://localhost:8000/
 - FastAPI health endpoint: http://localhost:8000/health
+- FastAPI docs endpoint: http://localhost:8000/docs
+- FastAPI OPC UA variable poll: http://localhost:8000/opcua/variables
 
 ## Clean rebuild
 
@@ -84,6 +90,7 @@ docker system prune -af
 - PGAdmin: http://localhost:5050
 - FastAPI: http://localhost:8000
 - FastAPI health endpoint: http://localhost:8000/health
+- FastAPI OPC UA variable poll: http://localhost:8000/opcua/variables
 
 For OPC UA clients:
 

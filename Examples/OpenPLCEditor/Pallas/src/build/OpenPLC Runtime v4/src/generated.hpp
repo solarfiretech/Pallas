@@ -5,6 +5,7 @@
 
 #include "iec_types.hpp"
 #include "iec_var.hpp"
+#include "iec_global.hpp"
 #include "iec_array.hpp"
 #include "iec_located.hpp"
 #include "iec_std_lib.hpp"

@@ -1,1 +1,10 @@
-{}
+{
+    "chat.tools.terminal.autoApprove": {
+        "docker compose": true,
+        "sqlite3": true,
+        "/^powershell -Command \"Get-Content 'c:\\\\Users\\\\timga\\\\AppData\\\\Roaming\\\\Code\\\\User\\\\workspaceStorage\\\\06639120e3eb671da1b9c2ae4a2b2d69\\\\GitHub\\.copilot-chat\\\\chat-session-resources\\\\4ed9a62f-7edb-42e1-b890-4fc6059821ad\\\\call_MHw0TTA4WVlscTJRT0V5OVAyS2w__vscode-1783894640480\\\\content\\.txt' \\| Select-Object -First 50\"$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

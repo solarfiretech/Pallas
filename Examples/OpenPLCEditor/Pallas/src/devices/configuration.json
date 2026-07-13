@@ -3,5 +3,8 @@
   "communicationPort": "",
   "runtimeIpAddress": "localhost",
   "vendorScreenData": {},
+  "vendorScreenDataByBoard": {
+    "OpenPLC Runtime v4": {}
+  },
   "selectedPlatformOptions": {}
 }

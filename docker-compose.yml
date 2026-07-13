@@ -9,6 +9,7 @@ services:
       - SYS_RESOURCE
     volumes:
       - openplc_runtime_data:/var/run/runtime
+      - openplc_runtime_workdir:/workdir
     environment:
       TZ: ${TZ:-UTC}
     restart: unless-stopped
@@ -82,6 +83,7 @@ volumes:
   postgres_data:
   pgadmin_data:
   openplc_runtime_data:
+  openplc_runtime_workdir:
 
 networks:
   pallas-network:
