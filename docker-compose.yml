@@ -74,8 +74,6 @@ services:
       - pgadmin_password
     ports:
       - "${PGADMIN_PORT:-5050}:80"
-    depends_on:
-      - postgres
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     healthcheck:
@@ -111,8 +109,6 @@ services:
       PGADMIN_EXPECTED_HTTP_STATUSES: ${PGADMIN_EXPECTED_HTTP_STATUSES:-200,302}
       POSTGRES_HEALTHCHECK_HOST: ${POSTGRES_HEALTHCHECK_HOST:-postgres}
       POSTGRES_HEALTHCHECK_PORT: ${POSTGRES_HEALTHCHECK_PORT:-5432}
-    depends_on:
-      - postgres
     volumes:
       - ./services/fastapi/app:/app
     healthcheck:

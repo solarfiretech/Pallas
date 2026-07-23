@@ -61,13 +61,13 @@ Node-RED dashboards, PLC programs, prebuilt flows, and application-specific data
 
 - A normal start uses `docker compose up --build -d`.
 - `docker compose ps` must show all five required services after startup.
-- Startup may be asynchronous; release acceptance will define and test a bounded readiness period after per-service health checks are implemented.
+- Startup is asynchronous and container health order is not guaranteed. The release-readiness test allows 600 seconds for a pristine cold start and 120 seconds for dependency recovery; callers must wait for the specific service health state they require.
 - A normal stop uses `docker compose down` and must preserve all named-volume data.
 - Container or Docker-host restart must restart services according to `restart: unless-stopped` and retain named-volume data.
 - `docker compose down -v` or `docker compose down --volumes` is an intentional destructive reset and removes Compose-managed persistent data. It is not an ordinary shutdown command.
 - The release must document log inspection with `docker compose logs` and service-specific recovery procedures.
 
-Automatic recovery guarantees, health-based dependency ordering, maximum startup duration, and graceful-shutdown timing remain release-readiness work and are not yet verified.
+PostgreSQL and OpenPLC delayed-start and restart recovery are verified by `release-readiness/06-dependency-readiness/Test-DependencyReadiness.ps1`. No required service has another service as a process-start prerequisite, so Compose intentionally has no health-gated dependency edges. Graceful-shutdown timing remains release-readiness work and is not yet verified.
 
 ## Persistence contract
 
@@ -85,7 +85,7 @@ FastAPI has no persistent volume in 0.1.0. Persistence does not constitute a bac
 
 ## Development and release boundaries
 
-The repository currently provides a development-oriented Compose configuration. Its FastAPI source bind mount remains release-readiness work. Compose-native health checks now cover every required service as documented in `compose-healthchecks.md`; later tasks will define health-based dependency behavior and additional release acceptance. Required third-party images are pinned to immutable digests as documented in `container-images.md`.
+The repository currently provides a development-oriented Compose configuration. Its FastAPI source bind mount remains release-readiness work. Compose-native health checks cover every required service as documented in `compose-healthchecks.md`; dependency readiness and recovery behavior are documented in `dependency-readiness.md`. Required third-party images are pinned to immutable digests as documented in `container-images.md`.
 
 The 0.1.0 release contract covers:
 
@@ -119,9 +119,7 @@ The following items must be resolved or explicitly accepted before the release c
 1. Decide whether host OPC UA access on port 4840 is supported and either publish it or remove the host endpoint claim from user documentation.
 2. Validate or revise the provisional CPU, memory, disk, Docker, Compose, and host-platform support matrix using release-candidate tests.
 3. Decide whether PostgreSQL host port 5432 and PGAdmin are enabled by default in the release or moved behind local-development configuration or profiles.
-4. Define per-service health checks, readiness deadlines, dependency behavior, and recovery guarantees.
-5. Replace the documented example credential placeholders with a hardened credential workflow.
-6. Separate development source mounts from the immutable release configuration.
-7. Decide whether PostgreSQL is an actual FastAPI runtime dependency; the API currently receives `DATABASE_URL` but does not perform database work.
-8. Define backup, restore, upgrade, rollback, security scanning, supported-version, and release-publication policies.
-9. Validate all promised behavior on every supported host platform.
+4. Replace the documented example credential placeholders with a hardened credential workflow.
+5. Separate development source mounts from the immutable release configuration.
+6. Define backup, restore, upgrade, rollback, security scanning, supported-version, and release-publication policies.
+7. Validate all promised behavior on every supported host platform.
