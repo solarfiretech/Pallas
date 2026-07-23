@@ -35,7 +35,9 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-pallas}
       POSTGRES_USER: ${POSTGRES_USER:-pallas}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required; copy .env.example to .env and set it}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -49,7 +51,9 @@ services:
     container_name: pallas-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:?PGADMIN_DEFAULT_EMAIL is required; copy .env.example to .env and set it}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?PGADMIN_DEFAULT_PASSWORD is required; copy .env.example to .env and set it}
+      PGADMIN_DEFAULT_PASSWORD_FILE: /run/secrets/pgadmin_password
+    secrets:
+      - pgadmin_password
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     depends_on:
@@ -68,7 +72,6 @@ services:
     ports:
       - "${FASTAPI_PORT:-8000}:8000"
     environment:
-      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-pallas}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}@postgres:5432/${POSTGRES_DB:-pallas}
       TZ: ${TZ:-UTC}
       OPCUA_ENDPOINT_URL: ${OPCUA_ENDPOINT_URL:-opc.tcp://openplc-runtime:4840/openplc/opcua}
       OPCUA_NAMESPACE_URI: ${OPCUA_NAMESPACE_URI:-urn:openplc:opcua:cocktails}
@@ -102,3 +105,9 @@ volumes:
 networks:
   pallas-network:
     driver: bridge
+
+secrets:
+  postgres_password:
+    file: ${POSTGRES_PASSWORD_FILE:?POSTGRES_PASSWORD_FILE is required; run the local secret generator or set a secret-file path}
+  pgadmin_password:
+    file: ${PGADMIN_DEFAULT_PASSWORD_FILE:?PGADMIN_DEFAULT_PASSWORD_FILE is required; run the local secret generator or set a secret-file path}

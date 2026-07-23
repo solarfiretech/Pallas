@@ -35,14 +35,14 @@ The precise platform, version, resource, service, lifecycle, and persistence com
 
 ## Configuration
 
-1. Copy the example environment file:
-   - Windows PowerShell:
-     - Copy-Item .env.example .env
-   - Bash:
-     - cp .env.example .env
-2. Open .env and update any secrets or ports as needed.
-   - Set a strong PostgreSQL password.
-   - Update PGAdmin credentials.
+1. Generate disposable local credentials without printing them:
+   - Windows PowerShell: `./workspace/generate-local-secrets.ps1`
+2. Open `.env` and update non-secret settings such as ports as needed. Passwords
+   remain in the Git-ignored `.secrets/` files created by the generator.
+
+For CI and release environments, use a managed secret store to materialize the
+password files and set their paths explicitly. Do not use the local generator as
+a production secret-management system.
 
 ## Build and Run
 

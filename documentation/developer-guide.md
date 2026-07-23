@@ -3,7 +3,8 @@
 The supported version 0.1.0 release boundary is defined in [release-contract.md](release-contract.md). This guide describes development workflows, which may include behavior that is not part of the immutable release configuration.
 
 ## Local Workflow
-1. Copy .env.example to .env and adjust secrets.
+1. Run `./workspace/generate-local-secrets.ps1`. It creates `.env` plus two
+   randomly generated files under `.secrets/` without printing their values.
 2. Start the stack with docker compose up --build -d.
 3. Use the service URLs listed in the README.
 4. Make changes in the relevant service folder.
@@ -14,6 +15,15 @@ Recommended day-to-day command set:
 - Tail logs: `docker compose logs -f <service-name>`
 - Rebuild one service: `docker compose up -d --build <service-name>`
 - Restart one service: `docker compose restart <service-name>`
+
+`.env` and `.secrets/` are ignored by Git. Restrict both secret files to the
+current OS user where the platform supports file permissions, never paste their
+contents into issues, logs, screenshots, or build artifacts, and rotate them if
+they may have been exposed. The local files are for disposable development
+credentials only. For shared, CI, staging, and production deployments, use the
+platform's managed secret store and arrange for it to materialize the two files
+at deployment time; do not commit encrypted or plaintext release secrets to this
+repository.
 
 ## Adding a New Service
 1. Create a new directory under services/.
