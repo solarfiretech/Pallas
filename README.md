@@ -10,6 +10,7 @@ Pallas is a Docker Compose-based development environment for building and testin
 
 See [documentation/container-images.md](documentation/container-images.md) for the release image versions, immutable digests, platform coverage, and upgrade procedure.
 See [documentation/environment-variables.md](documentation/environment-variables.md) for every supported setting, required values, defaults, and validation ranges.
+See [documentation/compose-healthchecks.md](documentation/compose-healthchecks.md) for per-service readiness semantics, timing, and inspection commands.
 
 ## Project Structure
 

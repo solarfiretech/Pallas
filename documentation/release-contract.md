@@ -85,7 +85,7 @@ FastAPI has no persistent volume in 0.1.0. Persistence does not constitute a bac
 
 ## Development and release boundaries
 
-The repository currently provides a development-oriented Compose configuration. Its FastAPI source bind mount, fallback credentials, and lack of Compose-native health checks are not acceptable evidence of a releasable build; later release-readiness tasks will address them. Required third-party images are pinned to immutable digests as documented in `container-images.md`.
+The repository currently provides a development-oriented Compose configuration. Its FastAPI source bind mount remains release-readiness work. Compose-native health checks now cover every required service as documented in `compose-healthchecks.md`; later tasks will define health-based dependency behavior and additional release acceptance. Required third-party images are pinned to immutable digests as documented in `container-images.md`.
 
 The 0.1.0 release contract covers:
 
