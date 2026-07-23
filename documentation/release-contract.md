@@ -85,7 +85,7 @@ FastAPI has no persistent volume in 0.1.0. Persistence does not constitute a bac
 
 ## Development and release boundaries
 
-The repository currently provides a development-oriented Compose configuration. Its FastAPI source bind mount, floating third-party image tags, fallback credentials, and lack of Compose-native health checks are not acceptable evidence of a releasable build; later release-readiness tasks will address them.
+The repository currently provides a development-oriented Compose configuration. Its FastAPI source bind mount, fallback credentials, and lack of Compose-native health checks are not acceptable evidence of a releasable build; later release-readiness tasks will address them. Required third-party images are pinned to immutable digests as documented in `container-images.md`.
 
 The 0.1.0 release contract covers:
 
@@ -116,13 +116,12 @@ A 0.1.0 release is acceptable only when the required services and behavior in th
 
 The following items must be resolved or explicitly accepted before the release candidate:
 
-1. Pin exact versions or immutable digests for OpenPLC Runtime, PostgreSQL, and PGAdmin; the current configuration contains floating tags.
-2. Decide whether host OPC UA access on port 4840 is supported and either publish it or remove the host endpoint claim from user documentation.
-3. Validate or revise the provisional CPU, memory, disk, Docker, Compose, and host-platform support matrix using release-candidate tests.
-4. Decide whether PostgreSQL host port 5432 and PGAdmin are enabled by default in the release or moved behind local-development configuration or profiles.
-5. Define per-service health checks, readiness deadlines, dependency behavior, and recovery guarantees.
-6. Remove insecure fallback credentials and define the complete environment-variable contract.
-7. Separate development source mounts from the immutable release configuration.
-8. Decide whether PostgreSQL is an actual FastAPI runtime dependency; the API currently receives `DATABASE_URL` but does not perform database work.
-9. Define backup, restore, upgrade, rollback, security scanning, supported-version, and release-publication policies.
-10. Validate all promised behavior on every supported host platform.
+1. Decide whether host OPC UA access on port 4840 is supported and either publish it or remove the host endpoint claim from user documentation.
+2. Validate or revise the provisional CPU, memory, disk, Docker, Compose, and host-platform support matrix using release-candidate tests.
+3. Decide whether PostgreSQL host port 5432 and PGAdmin are enabled by default in the release or moved behind local-development configuration or profiles.
+4. Define per-service health checks, readiness deadlines, dependency behavior, and recovery guarantees.
+5. Replace the documented example credential placeholders with a hardened credential workflow.
+6. Separate development source mounts from the immutable release configuration.
+7. Decide whether PostgreSQL is an actual FastAPI runtime dependency; the API currently receives `DATABASE_URL` but does not perform database work.
+8. Define backup, restore, upgrade, rollback, security scanning, supported-version, and release-publication policies.
+9. Validate all promised behavior on every supported host platform.

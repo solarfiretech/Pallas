@@ -1,6 +1,6 @@
 services:
   openplc-runtime:
-    image: ${OPENPLC_RUNTIME_IMAGE:-ghcr.io/autonomy-logic/openplc-runtime:latest}
+    image: ${OPENPLC_RUNTIME_IMAGE:-ghcr.io/autonomy-logic/openplc-runtime@sha256:76bc9e4647f1e9177779156e3668426711e5f12769e9fe140b48c6b35fb4a840}
     container_name: pallas-openplc-runtime
     ports:
       - "${OPENPLC_RUNTIME_PORT:-8443}:8443"
@@ -17,7 +17,7 @@ services:
       - pallas-network
 
   node-red:
-    image: nodered/node-red:4.1.11-debian
+    image: ${NODE_RED_IMAGE:-nodered/node-red:4.1.11-debian@sha256:4d46f0a52a65ab45d37c1a785f635286d49d17fe0dbc547ff724beefb8d42ac1}
     container_name: pallas-node-red
     ports:
       - "${NODE_RED_PORT:-1880}:1880"
@@ -30,12 +30,12 @@ services:
       - pallas-network
 
   postgres:
-    image: postgres:16-alpine
+    image: ${POSTGRES_IMAGE:-postgres:16.10-alpine@sha256:029660641a0cfc575b14f336ba448fb8a75fd595d42e1fa316b9fb4378742297}
     container_name: pallas-postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-pallas}
       POSTGRES_USER: ${POSTGRES_USER:-pallas}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required; copy .env.example to .env and set it}
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
@@ -45,11 +45,11 @@ services:
       - pallas-network
 
   pgadmin:
-    image: dpage/pgadmin4:latest
+    image: ${PGADMIN_IMAGE:-dpage/pgadmin4:9.6.0@sha256:2c7d73e13bd6c30b1d53e4c25d0d6d81adbd0799c4f4d6a09efc5d68fca5d16d}
     container_name: pallas-pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@example.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-change-me}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:?PGADMIN_DEFAULT_EMAIL is required; copy .env.example to .env and set it}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?PGADMIN_DEFAULT_PASSWORD is required; copy .env.example to .env and set it}
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     depends_on:
@@ -68,8 +68,22 @@ services:
     ports:
       - "${FASTAPI_PORT:-8000}:8000"
     environment:
-      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-pallas}:${POSTGRES_PASSWORD:-change-me}@postgres:5432/${POSTGRES_DB:-pallas}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-pallas}:${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}@postgres:5432/${POSTGRES_DB:-pallas}
       TZ: ${TZ:-UTC}
+      OPCUA_ENDPOINT_URL: ${OPCUA_ENDPOINT_URL:-opc.tcp://openplc-runtime:4840/openplc/opcua}
+      OPCUA_NAMESPACE_URI: ${OPCUA_NAMESPACE_URI:-urn:openplc:opcua:cocktails}
+      OPCUA_BROWSE_ROOT: ${OPCUA_BROWSE_ROOT:-ns=0;i=85}
+      OPCUA_MAX_DEPTH: ${OPCUA_MAX_DEPTH:-8}
+      OPCUA_TIMEOUT_SECONDS: ${OPCUA_TIMEOUT_SECONDS:-10}
+      HEALTHCHECK_TIMEOUT_SECONDS: ${HEALTHCHECK_TIMEOUT_SECONDS:-3}
+      OPENPLC_HEALTHCHECK_URL: ${OPENPLC_HEALTHCHECK_URL:-https://openplc-runtime:8443/}
+      OPENPLC_EXPECTED_HTTP_STATUSES: ${OPENPLC_EXPECTED_HTTP_STATUSES:-200,404}
+      NODE_RED_HEALTHCHECK_URL: ${NODE_RED_HEALTHCHECK_URL:-http://node-red:1880/}
+      NODE_RED_EXPECTED_HTTP_STATUSES: ${NODE_RED_EXPECTED_HTTP_STATUSES:-200}
+      PGADMIN_HEALTHCHECK_URL: ${PGADMIN_HEALTHCHECK_URL:-http://pgadmin:80/}
+      PGADMIN_EXPECTED_HTTP_STATUSES: ${PGADMIN_EXPECTED_HTTP_STATUSES:-200,302}
+      POSTGRES_HEALTHCHECK_HOST: ${POSTGRES_HEALTHCHECK_HOST:-postgres}
+      POSTGRES_HEALTHCHECK_PORT: ${POSTGRES_HEALTHCHECK_PORT:-5432}
     depends_on:
       - postgres
     volumes:

@@ -8,6 +8,9 @@ Pallas is a Docker Compose-based development environment for building and testin
 - PGAdmin
 - FastAPI for custom web applications
 
+See [documentation/container-images.md](documentation/container-images.md) for the release image versions, immutable digests, platform coverage, and upgrade procedure.
+See [documentation/environment-variables.md](documentation/environment-variables.md) for every supported setting, required values, defaults, and validation ranges.
+
 ## Project Structure
 
 - docker-compose.yml: defines the complete stack

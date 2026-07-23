@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import asyncio
-import os
 import socket
 import ssl
 from dataclasses import dataclass
@@ -12,32 +11,10 @@ from typing import Any
 
 from asyncua import Client, ua
 from fastapi import FastAPI, HTTPException
+from settings import Settings
 
+SETTINGS = Settings.from_env()
 app = FastAPI(title="Pallas FastAPI", version="0.1.0")
-
-DEFAULT_OPCUA_ENDPOINT_URL = os.getenv(
-    "OPCUA_ENDPOINT_URL",
-    "opc.tcp://openplc-runtime:4840/openplc/opcua",
-)
-DEFAULT_OPCUA_NAMESPACE_URI = os.getenv(
-    "OPCUA_NAMESPACE_URI",
-    "urn:openplc:opcua:cocktails",
-)
-
-DEFAULT_OPCUA_BROWSE_ROOT = os.getenv("OPCUA_BROWSE_ROOT", "ns=0;i=85")
-DEFAULT_OPCUA_MAX_DEPTH = int(os.getenv("OPCUA_MAX_DEPTH", "8"))
-DEFAULT_OPCUA_TIMEOUT_SECONDS = float(os.getenv("OPCUA_TIMEOUT_SECONDS", "10"))
-DEFAULT_HEALTHCHECK_TIMEOUT_SECONDS = float(os.getenv("HEALTHCHECK_TIMEOUT_SECONDS", "3"))
-
-OPENPLC_HEALTHCHECK_URL = os.getenv("OPENPLC_HEALTHCHECK_URL", "https://openplc-runtime:8443/")
-NODE_RED_HEALTHCHECK_URL = os.getenv("NODE_RED_HEALTHCHECK_URL", "http://node-red:1880/")
-PGADMIN_HEALTHCHECK_URL = os.getenv("PGADMIN_HEALTHCHECK_URL", "http://pgadmin:80/")
-POSTGRES_HEALTHCHECK_HOST = os.getenv("POSTGRES_HEALTHCHECK_HOST", "postgres")
-POSTGRES_HEALTHCHECK_PORT = int(os.getenv("POSTGRES_HEALTHCHECK_PORT", "5432"))
-
-OPENPLC_EXPECTED_HTTP_STATUSES = os.getenv("OPENPLC_EXPECTED_HTTP_STATUSES", "200,404")
-NODE_RED_EXPECTED_HTTP_STATUSES = os.getenv("NODE_RED_EXPECTED_HTTP_STATUSES", "200")
-PGADMIN_EXPECTED_HTTP_STATUSES = os.getenv("PGADMIN_EXPECTED_HTTP_STATUSES", "200,302")
 
 NODE_RED_DATATYPE_MAP = {
     "Boolean": "Boolean",
@@ -112,10 +89,10 @@ def _access_text(access_level_raw: int) -> str:
 
 @dataclass(frozen=True)
 class PollSettings:
-    endpoint_url: str = DEFAULT_OPCUA_ENDPOINT_URL
-    browse_root: str = DEFAULT_OPCUA_BROWSE_ROOT
-    max_depth: int = DEFAULT_OPCUA_MAX_DEPTH
-    timeout_seconds: float = DEFAULT_OPCUA_TIMEOUT_SECONDS
+    endpoint_url: str = SETTINGS.opcua_endpoint_url
+    browse_root: str = SETTINGS.opcua_browse_root
+    max_depth: int = SETTINGS.opcua_max_depth
+    timeout_seconds: float = SETTINGS.opcua_timeout_seconds
 
 
 @dataclass(frozen=True)
@@ -127,19 +104,6 @@ class ServiceHealthResult:
     target: str
     observedStatus: str
     expectedStatus: str
-
-
-def _parse_expected_http_statuses(raw: str) -> set[int]:
-    statuses: set[int] = set()
-    for token in raw.split(","):
-        token = token.strip()
-        if not token:
-            continue
-        try:
-            statuses.add(int(token))
-        except ValueError:
-            continue
-    return statuses
 
 
 def _http_healthcheck(
@@ -194,7 +158,7 @@ def _postgres_healthcheck(timeout_seconds: float) -> ServiceHealthResult:
 
     try:
         with socket.create_connection(
-            (POSTGRES_HEALTHCHECK_HOST, POSTGRES_HEALTHCHECK_PORT),
+            (SETTINGS.postgres_healthcheck_host, SETTINGS.postgres_healthcheck_port),
             timeout=timeout_seconds,
         ):
             pass
@@ -210,7 +174,7 @@ def _postgres_healthcheck(timeout_seconds: float) -> ServiceHealthResult:
         healthy=healthy,
         detail=detail,
         latencyMs=latency_ms,
-        target=f"{POSTGRES_HEALTHCHECK_HOST}:{POSTGRES_HEALTHCHECK_PORT}",
+        target=f"{SETTINGS.postgres_healthcheck_host}:{SETTINGS.postgres_healthcheck_port}",
         observedStatus=("tcp-open" if healthy else "tcp-closed"),
         expectedStatus="tcp-open",
     )
@@ -301,12 +265,12 @@ async def _read_variable_metadata(client: Client, namespace_uris: list[str], nod
         "value": getattr(value_variant, "Value", None),
         "valueStatus": str(getattr(value_data, "StatusCode_", getattr(value_data, "StatusCode", ""))),
         "valueTimestamp": value_data.SourceTimestamp.isoformat() if value_data.SourceTimestamp else "",
-        "endpointUrl": DEFAULT_OPCUA_ENDPOINT_URL,
+        "endpointUrl": SETTINGS.opcua_endpoint_url,
         "nodeRedDatatype": _node_red_datatype(data_type_name),
         "canRead": _can_read(_access_text(access_level_raw), access_level_raw),
         "canWrite": _can_write(_access_text(access_level_raw), access_level_raw),
         "nodeRed": {
-            "endpointUrl": DEFAULT_OPCUA_ENDPOINT_URL,
+            "endpointUrl": SETTINGS.opcua_endpoint_url,
             "nodeId": _node_id_to_string(node_id),
             "datatype": _node_red_datatype(data_type_name),
         },
@@ -373,33 +337,29 @@ def health_check() -> dict[str, str]:
 
 @app.get("/health/containers")
 async def containers_health_check() -> dict[str, Any]:
-    timeout_seconds = DEFAULT_HEALTHCHECK_TIMEOUT_SECONDS
+    timeout_seconds = SETTINGS.healthcheck_timeout_seconds
     checked_at = datetime.now(timezone.utc).isoformat()
-
-    openplc_expected = _parse_expected_http_statuses(OPENPLC_EXPECTED_HTTP_STATUSES)
-    node_red_expected = _parse_expected_http_statuses(NODE_RED_EXPECTED_HTTP_STATUSES)
-    pgadmin_expected = _parse_expected_http_statuses(PGADMIN_EXPECTED_HTTP_STATUSES)
 
     checks = await asyncio.gather(
         _check_service_http(
             service_name="openplc-runtime",
-            url=OPENPLC_HEALTHCHECK_URL,
+            url=SETTINGS.openplc_healthcheck_url,
             timeout_seconds=timeout_seconds,
-            expected_statuses=openplc_expected,
+            expected_statuses=set(SETTINGS.openplc_expected_http_statuses),
             allow_unverified_tls=True,
         ),
         _check_service_http(
             service_name="node-red",
-            url=NODE_RED_HEALTHCHECK_URL,
+            url=SETTINGS.node_red_healthcheck_url,
             timeout_seconds=timeout_seconds,
-            expected_statuses=node_red_expected,
+            expected_statuses=set(SETTINGS.node_red_expected_http_statuses),
         ),
         _check_service_postgres(timeout_seconds=timeout_seconds),
         _check_service_http(
             service_name="pgadmin",
-            url=PGADMIN_HEALTHCHECK_URL,
+            url=SETTINGS.pgadmin_healthcheck_url,
             timeout_seconds=timeout_seconds,
-            expected_statuses=pgadmin_expected,
+            expected_statuses=set(SETTINGS.pgadmin_expected_http_statuses),
         ),
         return_exceptions=True,
     )
@@ -458,7 +418,7 @@ async def list_opcua_variables() -> dict[str, Any]:
         "polledAt": datetime.now(timezone.utc).isoformat(),
         "endpointUrl": settings.endpoint_url,
         "browseRoot": settings.browse_root,
-        "namespaceUri": DEFAULT_OPCUA_NAMESPACE_URI,
+        "namespaceUri": SETTINGS.opcua_namespace_uri,
         "count": len(variables),
         "variables": variables,
     }
