@@ -28,6 +28,8 @@ Before you start, ensure you have the following installed:
 - Docker Engine
 - Docker Compose v2
 
+The precise platform, version, resource, service, lifecycle, and persistence commitments for version 0.1.0 are defined in [documentation/release-contract.md](documentation/release-contract.md). The current branch remains a development environment until the release-readiness gates in that contract are satisfied.
+
 ## Configuration
 
 1. Copy the example environment file:
@@ -102,7 +104,7 @@ Container health expected-status tuning:
 
 For OPC UA clients:
 
-- From host machine tools: opc.tcp://localhost:4840/openplc/opcua
+- From host machine tools: `opc.tcp://localhost:4840/openplc/opcua` is a proposed endpoint, but the current Compose configuration does not publish port 4840. Use it only after explicitly adding a host port mapping.
 - From containers in this stack (Node-RED/FastAPI): opc.tcp://openplc-runtime:4840/openplc/opcua
 
 ## Useful Commands
@@ -117,6 +119,8 @@ For OPC UA clients:
   - docker compose down -v
 
 ## Examples
+
+Examples are optional tutorial assets. They are not required to install, start, verify, or release the core multi-container environment.
 
 - Node-RED tutorial and sample flow: Examples/NodeRED/Pallas/README.md
 - OpenPLC Editor tutorial and sample project: Examples/OpenPLCEditor/Pallas/README.md
@@ -157,5 +161,7 @@ Use PGAdmin to connect to the PostgreSQL server using the host name postgres or 
 
 ## Documentation
 
-See documentation/design.md for the initial architecture and scaling guidance.
+- See [documentation/release-contract.md](documentation/release-contract.md) for the version 0.1.0 release contract.
+- See [documentation/design.md](documentation/design.md) for architecture and scaling guidance.
+- See [documentation/developer-guide.md](documentation/developer-guide.md) for the local development workflow.
 

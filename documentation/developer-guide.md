@@ -1,5 +1,7 @@
 # Developer Guide
 
+The supported version 0.1.0 release boundary is defined in [release-contract.md](release-contract.md). This guide describes development workflows, which may include behavior that is not part of the immutable release configuration.
+
 ## Local Workflow
 1. Copy .env.example to .env and adjust secrets.
 2. Start the stack with docker compose up --build -d.
@@ -30,7 +32,7 @@ The repository includes helper scripts in `workspace/` for OpenPLC OPC UA develo
 
 Endpoint reference:
 
-- Host tools: `opc.tcp://localhost:4840/openplc/opcua`
+- Host tools: `opc.tcp://localhost:4840/openplc/opcua` only when port 4840 has been explicitly published; the current Compose file does not publish it.
 - In-stack services (Node-RED/FastAPI): `opc.tcp://openplc-runtime:4840/openplc/opcua`
 
 ## Troubleshooting
@@ -48,3 +50,5 @@ Update docs when any of the following changes:
 - OPC UA endpoint path or security mode.
 - Example asset locations under `Examples/`.
 - Environment variables in `.env.example`.
+
+Example assets are optional development aids and are not release acceptance prerequisites.

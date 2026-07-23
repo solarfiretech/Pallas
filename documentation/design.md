@@ -3,6 +3,8 @@
 ## Overview
 Pallas is a development environment for experimenting with industrial automation workflows using OpenPLC Runtime v4, Node-RED, PostgreSQL, PGAdmin, and a FastAPI service for custom web applications.
 
+The normative version 0.1.0 support and acceptance boundary is defined in [release-contract.md](release-contract.md). This design document describes architecture; it does not expand that release contract.
+
 ## Architecture
 - OpenPLC Runtime v4 hosts the runtime environment.
 - Node-RED provides low-code workflow automation and integrations.
@@ -19,6 +21,7 @@ All services run in a single Docker Compose project and share one bridge network
 
 ## Persistence Model
 - `openplc_runtime_data`: OpenPLC runtime state.
+- `openplc_runtime_workdir`: loaded OpenPLC project and build state.
 - `node_red_data`: Node-RED flows and installed palette packages.
 - `postgres_data`: PostgreSQL database files.
 - `pgadmin_data`: PGAdmin configuration and saved connections.
@@ -39,6 +42,8 @@ Named volumes are used to keep local state between container restarts.
 3. FastAPI provides a web API surface for custom workflows and can be extended to consume OPC UA or PostgreSQL data.
 4. PostgreSQL persists application data used by API or automation workflows.
 5. PGAdmin is used for local DB inspection and administration.
+
+The contents of `Examples/` illustrate this reference flow but are optional and excluded from core release completion requirements.
 
 ## Scaling Guidance
 - Add new services to the compose stack by introducing a new section in docker-compose.yml.
