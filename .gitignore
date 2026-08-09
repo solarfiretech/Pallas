@@ -9,4 +9,6 @@
 .secrets/
 services/fastapi/app/__pycache__/
 
+documentation/article.md
+
 
