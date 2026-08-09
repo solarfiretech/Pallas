@@ -37,6 +37,10 @@ All five services below are required in the default Compose project:
 
 Host ports may be changed through `.env`. Within the `pallas-network` bridge network, services communicate using their Compose service names and container ports.
 
+The supported PLC toolchain is OpenPLC Editor v4 targeting OpenPLC Runtime v4.
+PLC projects created by other major OpenPLC Editor versions are outside the
+0.1.0 compatibility contract.
+
 The current Compose model publishes OpenPLC container port 8443 for diagnostic
 compatibility, but OpenPLC Runtime v4 does not provide a supported user-facing
 HTTP interface there. Port 8443 is not a release user-access surface and must

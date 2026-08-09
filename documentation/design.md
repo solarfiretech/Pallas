@@ -6,7 +6,8 @@ Pallas is a development environment for experimenting with industrial automation
 The normative version 0.1.0 support and acceptance boundary is defined in [release-contract.md](release-contract.md). This design document describes architecture; it does not expand that release contract.
 
 ## Architecture
-- OpenPLC Runtime v4 hosts the runtime environment.
+- OpenPLC Runtime v4 hosts the runtime environment. Compatible PLC programs
+  must be created and built with OpenPLC Editor v4.
 - Node-RED provides low-code workflow automation and integrations.
 - PostgreSQL stores application and workflow data.
 - PGAdmin provides a browser-based interface for database administration.

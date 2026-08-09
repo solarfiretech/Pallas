@@ -2,11 +2,15 @@
 
 Pallas is a Docker Compose-based development environment for building and testing automation and web application workflows. The stack includes:
 
-- OpenPLC Runtime v4
+- OpenPLC Runtime v4 (use OpenPLC Editor v4 to create compatible PLC programs)
 - Node-RED
 - PostgreSQL
 - PGAdmin
 - FastAPI for custom web applications
+
+Pallas runs OpenPLC Runtime v4. PLC programs intended for this runtime must be
+created and built with OpenPLC Editor v4; projects from other major editor
+versions are not part of the supported workflow.
 
 See [documentation/container-images.md](documentation/container-images.md) for the release image versions, immutable digests, platform coverage, and upgrade procedure.
 See [documentation/environment-variables.md](documentation/environment-variables.md) for every supported setting, required values, defaults, and validation ranges.
