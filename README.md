@@ -34,8 +34,27 @@ OpenPLC persistence notes:
 
 Before you start, ensure you have the following installed:
 
-- Docker Engine
-- Docker Compose v2
+- Docker Desktop
+- Docker Compose v2, included with Docker Desktop
+
+## Docker Desktop Requirement
+
+Pallas depends on Docker Desktop to build and run its Linux containers. Docker
+Desktop must be installed and running before you use any `docker compose`
+command in this project. On Windows, Docker Desktop must be configured to use
+Linux containers with the WSL 2 backend.
+
+Verify that Docker Desktop and its container engine are ready:
+
+```bash
+docker version
+docker compose version
+```
+
+Both commands must complete successfully and `docker version` must display
+information for both the client and server. If the server section is missing or
+Docker reports that it cannot connect to the daemon, start Docker Desktop and
+wait until its engine reports that it is running before starting Pallas.
 
 The precise platform, version, resource, service, lifecycle, and persistence commitments for version 0.1.0 are defined in [documentation/release-contract.md](documentation/release-contract.md). The current branch remains a development environment until the release-readiness gates in that contract are satisfied.
 
