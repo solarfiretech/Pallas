@@ -27,7 +27,7 @@ The recommended development allocation is 4 CPU cores and 8 GB RAM. These resour
 
 All five services below are required in the default Compose project:
 
-| Compose service | Role | Default host port | Container port |
+| Compose service | Role | Default published host port | Container port |
 | --- | --- | ---: | ---: |
 | `openplc-runtime` | OpenPLC Runtime v4 | 8443 | 8443 |
 | `node-red` | Workflow editor and runtime | 1880 | 1880 |
@@ -36,6 +36,11 @@ All five services below are required in the default Compose project:
 | `fastapi` | Pallas API and stack health surface | 8000 | 8000 |
 
 Host ports may be changed through `.env`. Within the `pallas-network` bridge network, services communicate using their Compose service names and container ports.
+
+The current Compose model publishes OpenPLC container port 8443 for diagnostic
+compatibility, but OpenPLC Runtime v4 does not provide a supported user-facing
+HTTP interface there. Port 8443 is not a release user-access surface and must
+not be documented or verified as an OpenPLC UI or public HTTP API.
 
 OpenPLC OPC UA is supported inside the Compose network at `opc.tcp://openplc-runtime:4840/openplc/opcua`. Host access at `opc.tcp://localhost:4840/openplc/opcua` is not currently supplied by `docker-compose.yml` and is therefore not part of the implemented 0.1.0 contract until the unresolved port decision is completed.
 
@@ -49,7 +54,6 @@ docker compose up --build -d
 
 The release must provide these user-facing surfaces on their configured host ports:
 
-- OpenPLC Runtime interface.
 - Node-RED editor.
 - PGAdmin interface.
 - FastAPI root, health, aggregate container-health, OpenAPI documentation, and OPC UA variable-poll endpoints.
@@ -123,3 +127,6 @@ The following items must be resolved or explicitly accepted before the release c
 5. Separate development source mounts from the immutable release configuration.
 6. Define backup, restore, upgrade, rollback, security scanning, supported-version, and release-publication policies.
 7. Validate all promised behavior on every supported host platform.
+8. Remove the OpenPLC 8443 host publication unless a verified non-HTTP runtime
+   requirement needs it; its current publication is not a supported access
+   contract.

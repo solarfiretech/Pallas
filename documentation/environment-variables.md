@@ -19,7 +19,7 @@ rendered Compose model.
 | `NODE_RED_IMAGE` | Optional | Pinned Node-RED image shown in `.env.example`; a valid container image reference. |
 | `POSTGRES_IMAGE` | Optional | Pinned PostgreSQL image shown in `.env.example`; a valid container image reference. |
 | `PGADMIN_IMAGE` | Optional | Pinned PGAdmin image shown in `.env.example`; a valid container image reference. |
-| `OPENPLC_RUNTIME_PORT` | Optional | `8443`; integer 1-65535, available on the host. |
+| `OPENPLC_RUNTIME_PORT` | Optional | `8443`; integer 1-65535. This is the current diagnostic port mapping, not a supported OpenPLC UI or user-facing HTTP API. |
 | `NODE_RED_PORT` | Optional | `1880`; integer 1-65535, available on the host. |
 | `POSTGRES_PORT` | Optional | `5432`; integer 1-65535, available on the host. |
 | `PGADMIN_PORT` | Optional | `5050`; integer 1-65535, available on the host. |
@@ -50,8 +50,8 @@ them with defaults; direct non-Compose startup rejects them.
 | `OPCUA_MAX_DEPTH` | `8` | Integer 0-100. |
 | `OPCUA_TIMEOUT_SECONDS` | `10` | Number 0.1-300 seconds. |
 | `HEALTHCHECK_TIMEOUT_SECONDS` | `3` | Number 0.1-300 seconds per service. |
-| `OPENPLC_HEALTHCHECK_URL` | `https://openplc-runtime:8443/` | Absolute HTTP(S) URL. TLS certificates are not verified for this development endpoint. |
-| `OPENPLC_EXPECTED_HTTP_STATUSES` | `200,404` | Non-empty comma-separated integers 100-599. |
+| `OPENPLC_HEALTHCHECK_URL` | `https://openplc-runtime:8443/` | Absolute HTTP(S) URL used only for FastAPI's internal diagnostic probe. It is not a user-access endpoint. TLS certificates are not verified for this development probe. |
+| `OPENPLC_EXPECTED_HTTP_STATUSES` | `200,404` | Non-empty comma-separated integers 100-599 for the internal diagnostic probe. |
 | `NODE_RED_HEALTHCHECK_URL` | `http://node-red:1880/` | Absolute HTTP(S) URL. |
 | `NODE_RED_EXPECTED_HTTP_STATUSES` | `200` | Non-empty comma-separated integers 100-599. |
 | `PGADMIN_HEALTHCHECK_URL` | `http://pgadmin:80/` | Absolute HTTP(S) URL. |

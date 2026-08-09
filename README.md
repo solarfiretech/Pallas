@@ -66,15 +66,29 @@ docker compose ps
 
 Then verify these URLs:
 
-- OpenPLC Runtime UI: http://localhost:8443
 - Node-RED editor: http://localhost:1880
-- Node-RED dashboard (if a dashboard flow is deployed): http://localhost:1880/ui
+- Node-RED dashboard (if a dashboard flow is deployed): http://localhost:1880/dashboard
 - PGAdmin: http://localhost:5050
 - FastAPI root endpoint: http://localhost:8000/
 - FastAPI health endpoint: http://localhost:8000/health
 - FastAPI container health endpoint: http://localhost:8000/health/containers
 - FastAPI docs endpoint: http://localhost:8000/docs
 - FastAPI OPC UA variable poll: http://localhost:8000/opcua/variables
+
+## Starting and Stopping this Application
+
+Start the application in the background:
+
+```bash
+docker compose up -d
+```
+
+Stop the application and remove its containers and network while preserving
+named-volume data:
+
+```bash
+docker compose down
+```
 
 ## Clean rebuild
 
@@ -93,7 +107,6 @@ docker system prune -af
 
 ## Service Access
 
-- OpenPLC Runtime: http://localhost:8443
 - Node-RED: http://localhost:1880
 - PGAdmin: http://localhost:5050
 - FastAPI: http://localhost:8000
@@ -101,8 +114,11 @@ docker system prune -af
 - FastAPI container health endpoint: http://localhost:8000/health/containers
 - FastAPI OPC UA variable poll: http://localhost:8000/opcua/variables
 
-Container health expected-status tuning:
-- `OPENPLC_EXPECTED_HTTP_STATUSES` (default: `200,404`)
+Container health expected-status tuning follows. The OpenPLC HTTP setting is an
+internal diagnostic probe used by FastAPI; it is not a supported OpenPLC web UI
+or user-facing HTTP API.
+
+- `OPENPLC_EXPECTED_HTTP_STATUSES` (default: `200,404`; internal probe only)
 - `NODE_RED_EXPECTED_HTTP_STATUSES` (default: `200`)
 - `PGADMIN_EXPECTED_HTTP_STATUSES` (default: `200,302`)
 - `POSTGRES_HEALTHCHECK_HOST` / `POSTGRES_HEALTHCHECK_PORT` (default: `postgres` / `5432`)

@@ -13,6 +13,12 @@ Node-RED flow, or another container to be healthy.
 | PGAdmin | HTTP `GET /misc/ping` with `wget --spider` | PGAdmin's process and HTTP server report ready through its purpose-built ping route. A PostgreSQL connection is not required. | 60 seconds |
 | FastAPI | Python HTTP request to `GET /health`, requiring HTTP 200 and exactly `{"status":"ok"}` | Uvicorn is serving the Pallas API and its local liveness response has the expected contract. This deliberately does not call `/health/containers`, so another service cannot make the FastAPI container unhealthy. | 20 seconds |
 
+The OpenPLC HTTPS request above is a container-local implementation detail used
+only to determine process readiness. It does not establish or advertise a
+user-facing OpenPLC web UI or supported HTTP API. Operators interact with
+OpenPLC runtime variables through the documented OPC UA endpoint, not through
+port 8443 in a browser.
+
 All checks run every 10 seconds, have a 5-second timeout, and require five
 consecutive failures after the start period before Docker marks a container
 `unhealthy`. A successful probe immediately changes an unhealthy container back

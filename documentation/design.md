@@ -17,7 +17,10 @@ All services run in a single Docker Compose project and share one bridge network
 ## Runtime Topology
 - Service-to-service communication uses Docker service names on the internal network.
 - OpenPLC OPC UA endpoint inside the stack: `opc.tcp://openplc-runtime:4840/openplc/opcua`.
-- Host browser access uses mapped ports from `.env`.
+- Browser access is provided by Node-RED, PGAdmin, and FastAPI through their
+  mapped ports. OpenPLC Runtime v4 does not provide a supported browser UI or
+  user-facing HTTP API; its published port 8443 is currently used only for
+  diagnostic compatibility.
 
 ## Persistence Model
 - `openplc_runtime_data`: OpenPLC runtime state.
